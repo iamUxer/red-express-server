@@ -6,6 +6,7 @@
   "description": "express-server",
   "dependencies": {
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "swagger-ui-express": "^4.1.6"
   }
 }
