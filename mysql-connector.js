@@ -7,7 +7,7 @@ const db = mysql.createPool({
   database: "red",
 });
 
-db.query("select 123 as abc", null, function (error, rows) {
+db.query("select ? as ?", [12345, "abcdef"], function (error, rows) {
   console.log(error);
   console.log(rows);
 });
