@@ -21,4 +21,23 @@ router.post("/", function (request, response) {
   });
 });
 
+router.get("/", function (request, response) {
+  const orderName = request.query.orderName || "name";
+  const orderType = request.query.orderType || "asc";
+  const sql = `
+      select * from items
+      where member_pk = 1
+      order by ${orderName} ${orderType};
+    `;
+  db.query(sql, null, function (error, rows) {
+    if (!error || db.error(request, response, error)) {
+      console.log("Done items get", rows);
+      response.status(200).send({
+        result: "Readed",
+        items: rows,
+      });
+    }
+  });
+});
+
 module.exports = router;
