@@ -1,5 +1,7 @@
 const express = (global.express = require("express"));
 const app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 
 // MySQL
 global.db = require("./mysql-connector.js");

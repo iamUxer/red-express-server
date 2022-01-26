@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "REST API members"
+    "title": "REST API Red"
   },
   "basePath": "/api/v1",
   "paths": {
@@ -107,6 +107,52 @@
         "responses": {
           "200": {
             "description": "Created"
+          }
+        }
+      }
+    },
+    "/items/{index}": {
+      "post": {
+        "tags": ["items"],
+        "summary": "Update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "type": "number",
+            "default": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["items"],
+        "summary": "Delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "type": "number",
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed Delete"
           }
         }
       }
