@@ -56,11 +56,11 @@ router.delete('/:index', function (request, response) {
   });
 });
 
-router.post('/:index', function (request, response) {
+router.patch('/:index', function (request, response) {
   const index = Number(request.params.index);
   const body = request.body;
   const sql = `
-    update items set name = ${body.name}, enter = ${body.enter}, expire = ${body.expire} where item_pk = ${index}
+    update items set name = '${body.name}', enter = '${body.enter}', expire = '${body.expire}' where item_pk = ${index};
   `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {

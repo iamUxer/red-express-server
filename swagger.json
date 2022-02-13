@@ -112,7 +112,7 @@
       }
     },
     "/items/{index}": {
-      "post": {
+      "patch": {
         "tags": ["items"],
         "summary": "Update",
         "parameters": [
