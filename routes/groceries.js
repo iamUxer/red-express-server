@@ -1,17 +1,14 @@
 const router = global.express.Router();
 const db = global.db;
 
-router.post('/', function (request, response) {
+router.post('/:item_pk', function (request, response) {
   const sql = `
-    insert into groceries(member_pk, name, enter, expire)
-    values (
-      1,
-      ?,
-      date_format(now(), '%Y-%m-%d'),
-      date_format(date_add(now(), interval + 2 week), '%Y-%m-%d')
-    );
+  insert into groceries (
+    select item_pk as grocery_pk, member_pk, name, enter, expire from items
+    where item_pk = ?
+  );
   `;
-  db.query(sql, [request.body.name], function (error, rows) {
+  db.query(sql, [request.params.item_pk], function (error, rows) {
     if (!error || db.error(request, response, error)) {
       console.log('Done groceries post', rows);
       response.status(200).send({
