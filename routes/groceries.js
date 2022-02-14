@@ -3,7 +3,7 @@ const db = global.db;
 
 router.post('/', function (request, response) {
   const sql = `
-    insert into items(member_pk, name, enter, expire)
+    insert into groceries(member_pk, name, enter, expire)
     values (
       1,
       ?,
@@ -13,7 +13,7 @@ router.post('/', function (request, response) {
   `;
   db.query(sql, [request.body.name], function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Done items post', rows);
+      console.log('Done groceries post', rows);
       response.status(200).send({
         result: 'Created',
       });
@@ -26,16 +26,16 @@ router.get('/', function (request, response) {
   const orderByType = request.query.orderByType || 'asc';
   console.log(orderByName, orderByType);
   const sql = `
-      select * from items
+      select * from groceries
       where member_pk = 1
       order by ${orderByName} ${orderByType};
     `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Done items get', rows);
+      console.log('Done groceries get', rows);
       response.status(200).send({
         result: 'Readed',
-        items: rows,
+        groceries: rows,
       });
     }
   });
@@ -44,14 +44,14 @@ router.get('/', function (request, response) {
 router.delete('/:index', function (request, response) {
   const index = Number(request.params.index);
   const sql = `
-    delete from items where item_pk = ${index};
+    delete from groceries where grocery_pk = ${index};
     `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Succeed Delete item', rows);
+      console.log('Succeed Delete grocery', rows);
       response.status(200).send({
         result: 'Deleted',
-        items: rows,
+        groceries: rows,
       });
     }
   });
@@ -61,14 +61,14 @@ router.patch('/:index', function (request, response) {
   const index = Number(request.params.index);
   const body = request.body;
   const sql = `
-    update items set name = '${body.name}', enter = '${body.enter}', expire = '${body.expire}' where item_pk = ${index};
+    update groceries set name = '${body.name}', enter = '${body.enter}', expire = '${body.expire}' where grocery_pk = ${index};
   `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Succeed Update item', rows);
+      console.log('Succeed Update grocery', rows);
       response.status(200).send({
         result: 'Updated',
-        items: rows,
+        groceries: rows,
       });
     }
   });
