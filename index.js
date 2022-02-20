@@ -40,8 +40,6 @@ app.use('/api/v1/groceries', require('./routes/groceries.js'));
 // Start server
 global.location = new URL('http://localhost:3100');
 app.listen(global.location.port, function () {
-  console.log(
-    'Express server listening on ' + global.location.origin + '/api/v1/members'
-  );
+  console.log('Express server listening on ' + global.location.origin);
   console.log('Swagger on ' + global.location.origin + '/api-docs');
 });

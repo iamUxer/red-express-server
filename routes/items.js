@@ -24,7 +24,7 @@ router.post('/', function (request, response) {
 router.get('/', function (request, response) {
   const orderByName = request.query.orderByName || 'name';
   const orderByType = request.query.orderByType || 'asc';
-  console.log(orderByName, orderByType);
+  console.log('orderByName: ', orderByName, ', orderByType: ', orderByType);
   const sql = `
       select * from items
       where member_pk = 1
@@ -32,7 +32,6 @@ router.get('/', function (request, response) {
     `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Done items get', rows);
       response.status(200).send({
         result: 'Readed',
         items: rows,
