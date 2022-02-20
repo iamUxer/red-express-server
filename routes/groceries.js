@@ -1,14 +1,15 @@
 const router = global.express.Router();
 const db = global.db;
 
-router.post('/:item_pk', function (request, response) {
+router.post('/', function (request, response) {
+  const id = request.body.id;
   const sql = `
   insert into groceries (
     select item_pk as grocery_pk, member_pk, name, enter, expire from items
     where item_pk = ?
   );
   `;
-  db.query(sql, [request.params.item_pk], function (error, rows) {
+  db.query(sql, [id], function (error, rows) {
     if (!error || db.error(request, response, error)) {
       console.log('Done groceries post', rows);
       response.status(200).send({
@@ -21,7 +22,6 @@ router.post('/:item_pk', function (request, response) {
 router.get('/', function (request, response) {
   const orderByName = request.query.orderByName || 'name';
   const orderByType = request.query.orderByType || 'asc';
-  console.log(orderByName, orderByType);
   const sql = `
       select * from groceries
       where member_pk = 1
@@ -29,7 +29,7 @@ router.get('/', function (request, response) {
     `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Done groceries get', rows);
+      console.log('Done groceries get');
       response.status(200).send({
         result: 'Readed',
         groceries: rows,
@@ -38,14 +38,15 @@ router.get('/', function (request, response) {
   });
 });
 
-router.delete('/:index', function (request, response) {
-  const index = Number(request.params.index);
+router.delete('/:id', function (request, response) {
+  const id = Number(request.params.id);
+  console.log('router delete id:::', id);
   const sql = `
-    delete from groceries where grocery_pk = ${index};
+    delete from groceries where grocery_pk = ${id};
     `;
   db.query(sql, null, function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log('Succeed Delete grocery', rows);
+      console.log('Succeed Delete grocery');
       response.status(200).send({
         result: 'Deleted',
         groceries: rows,
