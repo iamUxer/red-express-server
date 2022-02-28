@@ -22,12 +22,15 @@ router.post('/', function (request, response) {
 router.get('/', function (request, response) {
   const orderByName = request.query.orderByName || 'name';
   const orderByType = request.query.orderByType || 'asc';
+  const q = request.query.q || '';
   const sql = `
       select * from groceries
-      where member_pk = 1
+      where
+        member_pk = 1
+        and (? = '' or name like '%${q}%' )
       order by ${orderByName} ${orderByType};
     `;
-  db.query(sql, null, function (error, rows) {
+  db.query(sql, [q], function (error, rows) {
     if (!error || db.error(request, response, error)) {
       console.log('Done groceries get');
       response.status(200).send({
