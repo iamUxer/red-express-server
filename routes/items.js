@@ -26,7 +26,11 @@ router.get('/', function (request, response) {
   const orderByType = request.query.orderByType || 'asc';
   console.log('orderByName: ', orderByName, ', orderByType: ', orderByType);
   const sql = `
-      select * from items
+      select
+        *, (
+          select grocery_pk from groceries g where g.grocery_pk = i.item_pk
+        ) as grocery_pk
+      from items i
       where member_pk = 1
       order by ${orderByName} ${orderByType};
     `;
