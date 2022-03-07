@@ -26,7 +26,10 @@ app.use(function (request, response, next) {
     'Access-Control-Allow-Methods',
     'OPTIONS, PUT, PATCH, DELETE'
   );
-  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  response.setHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type, x-jwt-token'
+  );
   next();
 });
 
