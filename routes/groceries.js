@@ -1,5 +1,6 @@
 const router = global.express.Router();
 const db = global.db;
+const jwtAuth = require('../middlewares/jwtAuth.js');
 
 router.post('/', function (request, response) {
   const id = request.body.id;
@@ -19,7 +20,7 @@ router.post('/', function (request, response) {
   });
 });
 
-router.get('/', function (request, response) {
+router.get('/', jwtAuth.tokenCheck, function (request, response) {
   const orderByName = request.query.orderByName || 'name';
   const orderByType = request.query.orderByType || 'asc';
   const q = request.query.q || '';
