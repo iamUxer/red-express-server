@@ -28,7 +28,7 @@ app.use(function (request, response, next) {
   );
   response.setHeader(
     'Access-Control-Allow-Headers',
-    'Content-Type, x-jwt-token'
+    'Content-Type, x-jwt-token' //헤더에 jwt 토큰을 설정
   );
   next();
 });

@@ -2,10 +2,12 @@ const jwt = require('jsonwebtoken');
 const privateKey = 'privateKey';
 // privateKey를 바탕으로 JWT가 암호환된 토큰을 생성한다.
 
+// 로그인 정보로 토큰을 발행해준다.
 const tokenCreate = function (request, response, member) {
   jwt.sign(
     member,
     privateKey,
+    // 중요한 정보이기 때문에 config파일에 담아 .gitignore되도록 관리?
     {
       expiresIn: '1d',
       subject: 'login',
@@ -22,6 +24,7 @@ const tokenCreate = function (request, response, member) {
   );
 };
 
+// 토큰 정보가 맞는지 확인한다.
 const tokenCheck = function (request, response, next) {
   const token = request.headers['x-jwt-token'];
   if (!token)

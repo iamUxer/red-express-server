@@ -4,7 +4,29 @@ const jwtAuth = require('../middlewares/jwtAuth.js');
 
 router.post('/login/', function (request, response) {
   // TODO: 로그인 가능한 회원인지 확인
-  jwtAuth.tokenCreate(request, response, request.body);
+  const sql = `
+      select * from members
+      where
+        name = ?
+        and age = ?;
+    `;
+  db.query(sql, [request.body.name, request.body.age], function (error, rows) {
+    if (!error || db.error(request, response, error)) {
+      console.log(rows);
+      if (rows.length) {
+        rows;
+        jwtAuth.tokenCreate(request, response, {
+          name: rows[0].name,
+          // age: rows[0].age
+        });
+      } else {
+        response.status(401).send({
+          result: 'Unauthorized',
+          message: 'ID 또는 패스워드를 확인해주세요.',
+        });
+      }
+    }
+  });
 });
 
 router.get('/login/', jwtAuth.tokenCheck, function (request, response) {
