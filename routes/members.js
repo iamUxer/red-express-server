@@ -3,7 +3,6 @@ const members = global.mocks.members;
 const jwtAuth = require('../middlewares/jwtAuth.js');
 
 router.post('/login/', function (request, response) {
-  // TODO: 로그인 가능한 회원인지 확인
   const sql = `
       select * from members
       where
@@ -12,10 +11,10 @@ router.post('/login/', function (request, response) {
     `;
   db.query(sql, [request.body.name, request.body.age], function (error, rows) {
     if (!error || db.error(request, response, error)) {
-      console.log(rows);
       if (rows.length) {
         rows;
         jwtAuth.tokenCreate(request, response, {
+          member_pk: rows[0].member_pk,
           name: rows[0].name,
           // age: rows[0].age
         });
@@ -31,7 +30,7 @@ router.post('/login/', function (request, response) {
 
 router.get('/login/', jwtAuth.tokenCheck, function (request, response) {
   response.status(200).send({
-    decoded: request.decoded,
+    name: request.decoded.name,
   });
 });
 
